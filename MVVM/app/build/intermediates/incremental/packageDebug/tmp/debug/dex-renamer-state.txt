@@ -1,0 +1,4 @@
+#Wed Feb 22 01:47:22 GMT 2023
+base.0=/storage/emulated/0/AndroidIDEProjects/MVVM/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
