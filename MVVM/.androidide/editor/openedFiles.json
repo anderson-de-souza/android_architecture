@@ -1,20 +1,50 @@
 {
   "allFiles": [
     {
-      "file": "/storage/emulated/0/android-mvvm/MVVM/app/build.gradle",
+      "file": "/storage/emulated/0/AndroidIDEProjects/android-mvvm/MVVM/app/src/main/java/com/anderson/mvvm/MainActivity.java",
       "selection": {
         "end": {
-          "column": 29,
+          "column": 74,
           "index": -1,
-          "line": 7
+          "line": 75
         },
         "start": {
-          "column": 29,
+          "column": 74,
           "index": -1,
-          "line": 7
+          "line": 75
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/android-mvvm/MVVM/app/src/main/java/com/anderson/mvvm/AddNoteActivity.java",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": -1,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": -1,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/android-mvvm/MVVM/app/src/main/AndroidManifest.xml",
+      "selection": {
+        "end": {
+          "column": 41,
+          "index": -1,
+          "line": 13
+        },
+        "start": {
+          "column": 41,
+          "index": -1,
+          "line": 13
         }
       }
     }
   ],
-  "selectedFile": "/storage/emulated/0/android-mvvm/MVVM/app/build.gradle"
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/android-mvvm/MVVM/app/src/main/AndroidManifest.xml"
 }
