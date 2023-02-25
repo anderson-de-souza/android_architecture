@@ -24,7 +24,7 @@ public class Note {
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(int id) {
@@ -32,7 +32,7 @@ public class Note {
     }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public void setTitle(String title) {
@@ -40,7 +40,7 @@ public class Note {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {
@@ -48,7 +48,7 @@ public class Note {
     }
 
     public int getPriority() {
-        return this.priority;
+        return priority;
     }
 
     public void setPriority(int priority) {

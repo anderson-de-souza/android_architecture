@@ -27,31 +27,19 @@ public abstract class NoteDatabase extends RoomDatabase {
     public static RoomDatabase.Callback roomCallBack = new RoomDatabase.Callback() {
         
         @Override
-        public void onCreate(SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            new PopulateDbAsyncTask(instance).execute();
+        public void onCreate(SupportSQLiteDatabase database) {
+            
+            new Thread(() -> {
+                var noteDao = instance.noteDao();
+                noteDao.insert(new Note("Title 1", "Description 1", 1));
+                noteDao.insert(new Note("Title 2", "Description 2", 2));
+                noteDao.insert(new Note("Title 3", "Description 3", 3));
+                noteDao.insert(new Note("Title 4", "Description 4", 1));
+                noteDao.insert(new Note("Title 5", "Description 5", 3));
+            }).start();
+            
         }
         
     };
-    
-    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
-        
-        private NoteDao noteDao;
-        
-        public PopulateDbAsyncTask(NoteDatabase db) {
-            this.noteDao = db.noteDao();
-        }
-        
-        @Override
-        public Void doInBackground(Void... voids) {
-            noteDao.insert(new Note("Title 1", "Description 1", 1));
-            noteDao.insert(new Note("Title 2", "Description 2", 2));
-            noteDao.insert(new Note("Title 3", "Description 3", 3));
-            noteDao.insert(new Note("Title 4", "Description 4", 1));
-            noteDao.insert(new Note("Title 5", "Description 5", 3));
-            return null;
-        }
-        
-    }
     
 }
