@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.anderson.mvvm.databinding.ActivityAddNoteBinding;
 
@@ -25,8 +26,13 @@ public class AddNoteActivity extends AppCompatActivity {
         binding.selectPriority.setMinValue(1);
         binding.selectPriority.setMaxValue(10);
         
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-        setTitle("Add Note");
+        ActionBar actionBar = getSupportActionBar();
+        
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            setTitle("Add Note");
+        }    
         
     }
     

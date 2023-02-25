@@ -9,7 +9,7 @@
     android:layout_marginTop="8dp">
     
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
     
@@ -17,6 +17,7 @@
             android:id="@+id/view_priority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:text="1" 
             android:textAppearance="@style/TextAppearance.MaterialComponents.Badge" />
@@ -28,6 +29,7 @@
             android:text="Title" 
             android:textAppearance="@style/TextAppearance.MaterialComponents.Badge"
             android:layout_toStartOf="@id/view_priority"
+            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:ellipsize="end" />
         

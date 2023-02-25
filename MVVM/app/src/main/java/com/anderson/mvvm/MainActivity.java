@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements ActivityResultCal
         if (result.getData() != null && result.getResultCode() == RESULT_OK) {
             
             
-            String title = result.getData().getStringArrayExtra(AddNoteActivity.EXTRA_TITLE);
-            String description = result.getData().getStringArrayExtra(AddNoteActivity.EXTRA_DESCRIPTION);
+            String title = result.getData().getStringExtra(AddNoteActivity.EXTRA_TITLE);
+            String description = result.getData().getStringExtra(AddNoteActivity.EXTRA_DESCRIPTION);
             int priority = result.getData().getIntExtra(AddNoteActivity.EXTRA_PRIORITY, 1);
             
             var note = new Note(title, description, priority);
