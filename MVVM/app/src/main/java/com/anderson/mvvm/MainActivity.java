@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.anderson.mvvm.databinding.ActivityMainBinding;
-import com.itsaky.androidide.logsender.LogSender;
 
 import java.util.List;
 
@@ -19,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LogSender.startLogging(this);
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -31,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<Note> allNotes) {
                 Toast.makeText(MainActivity.this, "ok", Toast.LENGTH_SHORT).show();            
             }
-                
+
         });
     }
 }
