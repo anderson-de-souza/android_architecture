@@ -6,8 +6,12 @@ android {
 
     compileSdk 33
     buildToolsVersion "33.0.0"
+<<<<<<< HEAD
     namespace "com.anderson.mvvm"
 
+=======
+    
+>>>>>>> cd6251f09bd67888342b00de8f3de996777a6833
     defaultConfig {
         applicationId "com.anderson.mvvm"
         minSdk 16
