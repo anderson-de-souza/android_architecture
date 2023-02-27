@@ -1,0 +1,20 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/android-mvvm/MVVM/app/src/main/java/com/anderson/mvvm/MainActivity.java",
+      "selection": {
+        "end": {
+          "column": 6,
+          "index": -1,
+          "line": 110
+        },
+        "start": {
+          "column": 6,
+          "index": -1,
+          "line": 110
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/android-mvvm/MVVM/app/src/main/java/com/anderson/mvvm/MainActivity.java"
+}

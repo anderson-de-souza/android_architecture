@@ -7,32 +7,42 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.anderson.mvvm.databinding.ActivityAddNoteBinding;
+import com.anderson.mvvm.databinding.ActivityAddEditNoteBinding;
 
-public class AddNoteActivity extends AppCompatActivity {
+public class AddEditNoteActivity extends AppCompatActivity {
     
+    public static final String EXTRA_ID = "com.anderson.mvvm.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.anderson.mvvm.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION = "com.anderson.mvvm.EXTRA_DESCRIPTION";
     public static final String EXTRA_PRIORITY = "com.anderson.mvvm.EXTRA_PRIORITY";
     
-    private ActivityAddNoteBinding binding;
+    private ActivityAddEditNoteBinding binding;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAddNoteBinding.inflate(getLayoutInflater());
+        binding = ActivityAddEditNoteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
         
         binding.selectPriority.setMinValue(1);
         binding.selectPriority.setMaxValue(10);
         
-        ActionBar actionBar = getSupportActionBar();
+        Intent intent = getIntent();
         
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        if (intent.hasExtra(EXTRA_ID)) {
+            
+            setTitle("Edit Note");
+            
+            binding.fieldTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            binding.fieldDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            binding.selectPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY, 1));
+            
+        } else {
             setTitle("Add Note");
-        }    
+        }
         
     }
     
@@ -69,6 +79,12 @@ public class AddNoteActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_TITLE, title);
         intent.putExtra(EXTRA_DESCRIPTION, description);
         intent.putExtra(EXTRA_PRIORITY, priority);
+        
+        int id = getIntent().getIntExtra(EXTRA_ID, 0);
+        
+        if (id != 0) {
+            intent.putExtra(EXTRA_ID, id);
+        }
         
         setResult(RESULT_OK, intent);
         finish();

@@ -11,6 +11,7 @@ import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
+    private OnItemClickListener onItemClickListener;
     private List<Note> notes = new ArrayList<>();
 
     @Override
@@ -29,6 +30,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         holder.bind(notes.get(position));
     }
 
+    public Note getNoteAt(int position) {
+        return notes.get(position);
+    }
+
     public class NoteViewHolder extends RecyclerView.ViewHolder {
 
         private NoteItemBinding noteItem;
@@ -36,12 +41,25 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         public NoteViewHolder(NoteItemBinding noteItem) {
             super(noteItem.getRoot());
             this.noteItem = noteItem;
+            
+            noteItem.getRoot().setOnClickListener(view -> {
+                
+                int position = getAdapterPosition();
+                    
+                if (onItemClickListener != null && position != RecyclerView.NO_POSITION) {
+                    onItemClickListener.onItemClick(view, notes.get(position), position);
+                }
+                    
+            });
+            
         }
 
         public void bind(Note note) {
+            
             noteItem.viewDescription.setText(note.getDescription());
             noteItem.viewPriority.setText(String.valueOf(note.getPriority()));
             noteItem.viewTitle.setText(note.getTitle());
+            
         }
         
     }
@@ -49,6 +67,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     public void setNotes(List<Note> notes) {
         this.notes = notes;
         notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, Note note, int adapterPosition);
+    }
+    
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
     
 }

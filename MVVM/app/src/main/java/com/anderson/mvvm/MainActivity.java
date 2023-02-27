@@ -2,6 +2,8 @@ package com.anderson.mvvm;
 
 import android.content.Intent;
 import android.os.*;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -13,15 +15,21 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.anderson.mvvm.AddEditNoteActivity;
+import com.anderson.mvvm.MainActivity;
 import com.anderson.mvvm.NoteAdapter;
 import com.anderson.mvvm.databinding.ActivityMainBinding;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ActivityResultCallback<ActivityResult> {
+public class MainActivity extends AppCompatActivity {
 
-    private ActivityResultLauncher<Intent> resultLauncher;
+    private ActivityResultLauncher<Intent> insertResultLauncher;
+    private ActivityResultLauncher<Intent> updateResultLauncher;
+    
     private ActivityMainBinding binding;
     private NoteViewModel noteViewModel;
 
@@ -31,12 +39,13 @@ public class MainActivity extends AppCompatActivity implements ActivityResultCal
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         
-        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this);
+        insertResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> activityResultInsert(result));
+        updateResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> activityResultUpdate(result));
         
         binding.buttonAddNote.setOnClickListener(view -> {
             
-            var intent = new Intent(this, AddNoteActivity.class);
-            resultLauncher.launch(intent);        
+            var intent = new Intent(this, AddEditNoteActivity.class);
+            insertResultLauncher.launch(intent);        
                 
         });
         
@@ -47,34 +56,94 @@ public class MainActivity extends AppCompatActivity implements ActivityResultCal
         binding.recyclerView.setAdapter(noteAdapter);
         
         noteViewModel = new ViewModelProvider(this).get(NoteViewModel.class);
-        noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
-
+        noteViewModel.getAllNotes().observe(this, allNotes -> noteAdapter.setNotes(allNotes));
+        
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                
             @Override
-            public void onChanged(List<Note> allNotes) {
-                noteAdapter.setNotes(allNotes);
-                Toast.makeText(MainActivity.this, "ok", Toast.LENGTH_SHORT).show();            
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder from, RecyclerView.ViewHolder to) {
+                return false;    
             }
-
+                            
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder holder, int direction) {
+                noteViewModel.delete(noteAdapter.getNoteAt(holder.getAdapterPosition()));
+                Toast.makeText(MainActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
+            }
+                        
+        }).attachToRecyclerView(binding.recyclerView);
+        
+        noteAdapter.setOnItemClickListener((view, note, adapterPosition) -> {
+                
+            var intent = new Intent(this, AddEditNoteActivity.class);
+            
+            intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
+            intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
+            intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
+            
+            updateResultLauncher.launch(intent);
+                
         });
-        
-        
         
     }
     
     @Override
-    public void onActivityResult(ActivityResult result) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        
+        if (item.getItemId() == R.id.delete_all_notes) {
+            
+            noteViewModel.deleteAllNotes();
+            Toast.makeText(MainActivity.this, "All Notes Deleted", Toast.LENGTH_SHORT).show();
+            
+        }
+        
+        return super.onOptionsItemSelected(item);
+    }
+        
+    
+    public void activityResultInsert(ActivityResult result) {
         
         if (result.getData() != null && result.getResultCode() == RESULT_OK) {
             
             
-            String title = result.getData().getStringExtra(AddNoteActivity.EXTRA_TITLE);
-            String description = result.getData().getStringExtra(AddNoteActivity.EXTRA_DESCRIPTION);
-            int priority = result.getData().getIntExtra(AddNoteActivity.EXTRA_PRIORITY, 1);
+            String title = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_TITLE);
+            String description = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION);
+            int priority = result.getData().getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY, 1);
             
             var note = new Note(title, description, priority);
             noteViewModel.insert(note);
             
             Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
+            
+        }
+        
+    }
+    
+    public void activityResultUpdate(ActivityResult result) {
+        
+        if (result.getData() != null && result.getResultCode() == RESULT_OK) {
+            
+            int id = result.getData().getIntExtra(AddEditNoteActivity.EXTRA_ID, 0);
+            String title = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_TITLE);
+            String description = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION);
+            int priority = result.getData().getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY, 1);
+            
+            if (id != 0) {
+                
+                var note = new Note(title, description, priority);
+                note.setId(id);
+                
+                noteViewModel.update(note);
+             
+                Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
+                
+            }
             
         }
         
