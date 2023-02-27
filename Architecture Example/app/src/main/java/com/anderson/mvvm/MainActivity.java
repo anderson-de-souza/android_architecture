@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 
             var intent = new Intent(this, AddEditNoteActivity.class);
             
+            intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getId());
             intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
             intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
             intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
