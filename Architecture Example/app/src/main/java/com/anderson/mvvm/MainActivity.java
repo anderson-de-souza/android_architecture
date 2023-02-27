@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         binding.recyclerView.setAdapter(noteAdapter);
         
         noteViewModel = new ViewModelProvider(this).get(NoteViewModel.class);
-        noteViewModel.getAllNotes().observe(this, allNotes -> noteAdapter.setNotes(allNotes));
+        noteViewModel.getAllNotes().observe(this, allNotes -> noteAdapter.submitList(allNotes));
         
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                 
