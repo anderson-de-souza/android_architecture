@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/field_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:inputType="text"
+        android:hint="@string/title"
+        android:importantForAutofill="no"
+        android:importantForAccessibility="no"/>
+
+    <EditText
+        android:id="@+id/field_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:inputType="textMultiLine"
+        android:hint="@string/description"
+        android:importantForAutofill="no"
+        android:importantForAccessibility="no" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:layout_marginTop="8dp"
+        android:text="@string/priority" />
+
+    <NumberPicker
+        android:id="@+id/select_priority"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
